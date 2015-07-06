@@ -38,7 +38,7 @@ void algo1::think(board& b){
     }
     else{
         board kari = b;
-        int max=minimax(kari,kouho[0][0],kouho[0][1],color,DEPTH);
+        int max = -10000;
         int num=0;
         for(int i=0;i<n;i++){
             if(minimax(kari,kouho[i][0],kouho[i][1],color,DEPTH)>max){
@@ -74,7 +74,10 @@ int algo1::minimax(board b, int x, int y, int c, int d){
         if(c == color && best < val)  best =  val;
         if(c == 2/color && best <-val)  best = -val;
     }
-    return best;
+    if(c == color)
+        return best;
+    else
+        return -best;
 }
 
 
@@ -88,14 +91,12 @@ void algo11::think(board& b){
     vector< vector<int> > kouho;
     vector<int> zahyo(2);
     for(int i=0;i<SIZE;i++){
-        for(int j=0;j<SIZE;j++){
+        for(int j=0;j<SIZE;j++){\
             board kari = b;
             if(kari.setDisc(i,j,color)==0){
-                if(kari.getDisc(i,j)!=0){
-                    kouho.push_back(zahyo);
-                    kouho[kouho.size()-1][0]=i;
-                    kouho[kouho.size()-1][1]=j;
-                }
+                kouho.push_back(zahyo);
+                kouho[kouho.size()-1][0]=i;
+                kouho[kouho.size()-1][1]=j;
             }
         }
     }
@@ -106,7 +107,7 @@ void algo11::think(board& b){
     }
     else{
         board kari = b;
-        int max=minimax(kari,kouho[0][0],kouho[0][1],color,DEPTH);
+        int max = -10000;
         int num=0;
         for(int i=0;i<n;i++){
             if(minimax(kari,kouho[i][0],kouho[i][1],color,DEPTH)>max){
