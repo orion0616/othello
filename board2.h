@@ -63,11 +63,11 @@ void board::showBoard(){
         cout << i;
         for(int j=0;j<SIZE;j++){
             if(a[i][j]==0)
-                cout << " ";
+                cout << "-";
             if(a[i][j]==1)
-                cout << "⚪︎";
+                cout << "w";
             if(a[i][j]==2)
-                cout << "⚫︎";
+                cout << "b︎";
         }
         cout << endl;
     }
