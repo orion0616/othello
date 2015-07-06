@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 #define SIZE 8
+#define WHITE 1
+#define BLACK 2
 using namespace std;
 
 
@@ -11,11 +13,11 @@ public:
     board();
     bool passcheck();
     void showBoard(); //盤面を表示
-    int getDisc(int x,int y){return a[x][y];}; //指定座標の石を出力
+    int getDisc(int x,int y){return a[x][y];}; //指定座標の石の色を出力
     int setDisc(int x,int y,int color); //石を置く
     int checkblank(); //盤面上の空白数を出す
-    int eval(int color);
-    int eval2(int color);
+    int eval(int color);//石の数で評価
+    int eval2(int color);//盤面に重み付けをした上で評価
 };
 
 board::board(){
@@ -24,34 +26,27 @@ board::board(){
             a[i][j]=0;
         }
     }
-    a[SIZE/2-1][SIZE/2-1] =1;
-    a[SIZE/2-1][SIZE/2] =2;
-    a[SIZE/2][SIZE/2-1] =2;
-    a[SIZE/2][SIZE/2] = 1;
+    a[SIZE/2-1][SIZE/2-1] = WHITE;
+    a[SIZE/2-1][SIZE/2] = BLACK;
+    a[SIZE/2][SIZE/2-1] = BLACK;
+    a[SIZE/2][SIZE/2] = WHITE;
     showBoard();
 }
 
 bool board::passcheck(){
-    vector<int> kouho1,kouho2;
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
             board kari = *this;
             board kari2 = *this;
-            if(kari.setDisc(i,j,1)==0){
-                if(kari.getDisc(i,j)!=0){
-                    kouho1.push_back(0);
-                }
+            if(kari.setDisc(i,j,1)==0 && kari.getDisc(i,j)!=0){
+                return 0;
             }
-            if(kari2.setDisc(i,j,2)==0){
-                if(kari2.getDisc(i,j)!=0){
-                    kouho2.push_back(0);
-                }
+            if(kari2.setDisc(i,j,2)==0 && kari2.getDisc(i,j)!=0){
+                return 0;
             }
         }
     }
-    if(kouho1.size()==0 && kouho2.size()==0)
-        return 1;
-    else return 0;
+    return 1;
 }
 
 void board::showBoard(){
@@ -64,9 +59,9 @@ void board::showBoard(){
         for(int j=0;j<SIZE;j++){
             if(a[i][j]==0)
                 cout << "-";
-            if(a[i][j]==1)
+            if(a[i][j]==WHITE)
                 cout << "w";
-            if(a[i][j]==2)
+            if(a[i][j]==BLACK)
                 cout << "b︎";
         }
         cout << endl;
@@ -76,7 +71,7 @@ void board::showBoard(){
 
 
 int board::setDisc(int x, int y, int color){
-    if(x==100 & y==100){
+    if(x==100 && y==100){
         cout << "パスしました" << endl;
         showBoard();
         return 1;
@@ -84,10 +79,10 @@ int board::setDisc(int x, int y, int color){
     if(a[x][y]!=0)
         return 1;
     int opp;
-    if(color==1)
-        opp=2;
+    if(color==WHITE)
+        opp=BLACK;
     else
-        opp=1;
+        opp=WHITE;
 
     //左を変える
     if(a[x][y-1]==opp && y>1){
