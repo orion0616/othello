@@ -37,11 +37,7 @@ bool board::passcheck(){
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
             board kari = *this;
-            board kari2 = *this;
-            if(kari.setDisc(i,j,1)==0 && kari.getDisc(i,j)!=0){
-                return 0;
-            }
-            if(kari2.setDisc(i,j,2)==0 && kari2.getDisc(i,j)!=0){
+            if(kari.setDisc(i,j,1)==0 || kari.setDisc(i,j,2)==0){
                 return 0;
             }
         }
@@ -83,7 +79,7 @@ int board::setDisc(int x, int y, int color){
         opp=BLACK;
     else
         opp=WHITE;
-
+    int flag = 0;
     //左を変える
     if(a[x][y-1]==opp && y>1){
         for(int k=2;y-k>=0;k++){
@@ -94,6 +90,7 @@ int board::setDisc(int x, int y, int color){
             if(a[x][y-k]==color){
                 for(int i=0;i<k;i++){
                     a[x][y-i]=color;
+                    flag = 1;
                 }
                 break;
             }
@@ -109,6 +106,7 @@ int board::setDisc(int x, int y, int color){
             if(a[x][y+k]==color){
                 for(int i=0;i<k;i++){
                     a[x][y+i]=color;
+                    flag = 1;
                 }
                 break;
             }
@@ -124,6 +122,7 @@ int board::setDisc(int x, int y, int color){
             if(a[x-k][y]==color){
                 for(int i=0;i<k;i++){
                     a[x-i][y]=color;
+                    flag = 1;
                 }
                 break;
             }
@@ -139,6 +138,7 @@ int board::setDisc(int x, int y, int color){
             if(a[x+k][y]==color){
                 for(int i=0;i<k;i++){
                     a[x+i][y]=color;
+                    flag = 1;
                 }
                 break;
             }
@@ -154,6 +154,7 @@ int board::setDisc(int x, int y, int color){
             if(a[x-k][y-k]==color){
                 for(int i=0;i<k;i++){
                     a[x-i][y-i]=color;
+                    flag = 1;
                 }
                 break;
             }
@@ -169,6 +170,7 @@ int board::setDisc(int x, int y, int color){
             if(a[x+k][y-k]==color){
                 for(int i=0;i<k;i++){
                     a[x+i][y-i]=color;
+                    flag = 1;
                 }
                 break;
             }
@@ -184,6 +186,7 @@ int board::setDisc(int x, int y, int color){
             if(a[x-k][y+k]==color){
                 for(int i=0;i<k;i++){
                     a[x-i][y+i]=color;
+                    flag = 1;
                 }
                 break;
             }
@@ -199,12 +202,16 @@ int board::setDisc(int x, int y, int color){
             if(a[x+k][y+k]==color){
                 for(int i=0;i<k;i++){
                     a[x+i][y+i]=color;
+                    flag = 1;
                 }
                 break;
             }
         }
     }
-    return 0;
+    if(flag == 0)
+        return 1;
+    else
+        return 0;
 }
 
 int board::checkblank(){

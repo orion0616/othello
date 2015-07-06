@@ -25,11 +25,9 @@ void algo1::think(board& b){
         for(int j=0;j<SIZE;j++){\
             board kari = b;
             if(kari.setDisc(i,j,color)==0){
-                if(kari.getDisc(i,j)!=0){
-                    kouho.push_back(zahyo);
-                    kouho[kouho.size()-1][0]=i;
-                    kouho[kouho.size()-1][1]=j;
-                }
+                kouho.push_back(zahyo);
+                kouho[kouho.size()-1][0]=i;
+                kouho[kouho.size()-1][1]=j;
             }
         }
     }
@@ -130,11 +128,9 @@ int algo11::minimax(board b, int x, int y, int c, int d){
         for(int j=0;j<SIZE;j++){
             board kari = b;
             if(kari.setDisc(i,j,2/c)==0){
-                if(kari.getDisc(i,j)!=0){
-                    kouho.push_back(zahyo);
-                    kouho[kouho.size()-1][0]=i;
-                    kouho[kouho.size()-1][1]=j;
-                }
+                kouho.push_back(zahyo);
+                kouho[kouho.size()-1][0]=i;
+                kouho[kouho.size()-1][1]=j;
             }
         }
     }
@@ -144,11 +140,9 @@ int algo11::minimax(board b, int x, int y, int c, int d){
             for(int j=0;j<SIZE;j++){
                 board kari = b;
                 if(kari.setDisc(i,j,2/c)==0){
-                    if(kari.getDisc(i,j)!=0){
-                        kouho.push_back(zahyo);
-                        kouho[kouho.size()-1][0]=i;
-                        kouho[kouho.size()-1][1]=j;
-                    }
+                    kouho.push_back(zahyo);
+                    kouho[kouho.size()-1][0]=i;
+                    kouho[kouho.size()-1][1]=j;
                 }
             }
         }
